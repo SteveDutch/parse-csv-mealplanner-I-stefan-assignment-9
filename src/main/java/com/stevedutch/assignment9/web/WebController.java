@@ -1,7 +1,11 @@
 package com.stevedutch.assignment9.web;
 
+import java.io.IOException;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.stevedutch.assignment9.service.FileParser;
 
 @RestController
 public class WebController {
@@ -11,7 +15,14 @@ public class WebController {
 		System.out.println("hamstibamsti");
 		return "Welcome on my first\n JAVA SPRING BOOT BUILD WEBPAGE" + '\n' + "Ja Mann! " + '\n' + "FileParser is following soon";
 	}
-		
+	
+	@GetMapping("/start")
+	public String begin () throws IOException {
+		FileParser test = new FileParser();
+		test.fileReader();
+		return "placeholder for start";
+	}
+	
 	@GetMapping("/gluten-free")
 	public String glutenFree () {
 		return "Under Construction ------------------------Ja Mann! " + "GLUTENFREE RECIPES ARE FOLLOWING SOON";
