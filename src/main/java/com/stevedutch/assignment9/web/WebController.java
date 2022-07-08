@@ -12,7 +12,7 @@ public class WebController {
 	
 	@GetMapping("/first")
 	public String first () {
-		System.out.println("hamstibamsti");
+		System.out.println("hamstibamsti from /first");
 		return "Welcome on my first\n JAVA SPRING BOOT BUILD WEBPAGE" + '\n' + "Ja Mann! " + '\n' + "FileParser is following soon";
 	}
 	

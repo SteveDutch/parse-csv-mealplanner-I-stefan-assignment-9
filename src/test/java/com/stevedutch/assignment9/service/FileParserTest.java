@@ -18,7 +18,7 @@ class FileParserTest {
 
 		Iterable<CSVRecord> check = sut.fileReader();
 		 
-		 boolean exspectedResult = check.get();
+//		 boolean exspectedResult = check.get();
 			
 		;
 }
