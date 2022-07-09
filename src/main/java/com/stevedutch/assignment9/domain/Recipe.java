@@ -25,7 +25,25 @@ public class Recipe {
 
     private Boolean vegetarian;
 
-    //getter $ setter
+    public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree, String instructions,
+			Double preparationMinutes, Double pricePerServing, Integer readyInMinutes, Integer servings,
+			Double spoonacularScore, String title, Boolean vegan, Boolean vegetarian) {
+		super();
+		this.cookingMinutes = cookingMinutes;
+		this.dairyFree = dairyFree;
+		this.glutenFree = glutenFree;
+		this.instructions = instructions;
+		this.preparationMinutes = preparationMinutes;
+		this.pricePerServing = pricePerServing;
+		this.readyInMinutes = readyInMinutes;
+		this.servings = servings;
+		this.spoonacularScore = spoonacularScore;
+		this.title = title;
+		this.vegan = vegan;
+		this.vegetarian = vegetarian;
+	}
+
+	//getter $ setter
     
 	public Integer getCookingMinutes() {
 		return cookingMinutes;

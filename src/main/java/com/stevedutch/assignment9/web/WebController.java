@@ -19,8 +19,8 @@ public class WebController {
 	@GetMapping("/start")
 	public String begin () throws IOException {
 		FileParser test = new FileParser();
-		test.fileReader();
-		return "placeholder for start";
+		test.fileReader("recipes.txt");
+		return "placeholder for start" + test.toString();
 	}
 	
 	@GetMapping("/gluten-free")
