@@ -21,6 +21,8 @@ public class WebController {
 	String recipeFile = "recipes.txt";
 //	@Autowired
 	FileParser recipes = new FileParser();
+	List<Recipe> endpointSelector = new ArrayList<Recipe>();
+	
 	
 	@GetMapping("/first")
 	public String first () {
@@ -46,32 +48,49 @@ public class WebController {
 	}
 	
 	@GetMapping("/gluten-free")
-	public String glutenFree () throws IOException {
-		List<Recipe> glutenFree = new ArrayList<Recipe>();
-		glutenFree = recipes.fileReader(recipeFile);
-		glutenFree = glutenFree.stream()
-				 .filter(x -> x.getGlutenFree().equals(true)) 
-					.collect(Collectors.toList());
-						
+	public String glutenFree() throws IOException {
 		
-		
-		return "Under Construction ---Ja Mann! " + "GLUTENFREE RECIPES ARE HERE11111->" + glutenFree.toString();
+		endpointSelector = recipes.fileReader(recipeFile);
+		endpointSelector = endpointSelector.stream().filter(x -> x.getGlutenFree().equals(true)).collect(Collectors.toList());
+
+		return "Ja Mann! " + "GLUTENFREE RECIPES ARE HERE11111->" + endpointSelector.toString();
 	}
 	
 	@GetMapping("/vegan")
-	public String vegan() {
-		return "Under Construction ------------------------Ja Mann! " + "VEGAN  RECIPES ARE FOLLOWING SOON";
-	}
+	public String vegan() throws IOException {
+		
+		endpointSelector= recipes.fileReader(recipeFile);
+		endpointSelector = endpointSelector.stream().filter(x -> x.getVegan().equals(true))
+													.collect(Collectors.toList());
+
+		return "Ja Mann! " + "VEGAN  RECIPES ARE FHERE" + endpointSelector;
+		}
 
 	@GetMapping("/vegan-and-gluten-free")
-	public String veganAndGlutenFree () {
-		return "Under Construction ------------------------Ja Mann! " + "VEGAN ANG GLUTENFREE RECIPES ARE FOLLOWING SOON";
+	public String veganAndGlutenFree () throws IOException {
+		endpointSelector= recipes.fileReader(recipeFile);
+//		endpointSelector = endpointSelector.stream().filter(x -> x.getVegan().equals(true) && x.getGlutenFree().equals(true))
+//				.collect(Collectors.toList());
+		
+		endpointSelector = endpointSelector.stream()
+					
+						.filter(x -> x.getGlutenFree().equals(true))
+						.filter(x -> x.getVegan().equals(true))
+						.collect(Collectors.toList());
+
+		return "Ja Mann! " + "VEGAN ANG GLUTENFREE RECIPES ARE here" + endpointSelector;
 	}
 
 	@GetMapping("/vegetarian")
-	public String vegettarian () {
-		return "Under Construction ------------------------Ja Mann! " + "vegetarian RECIPES ARE FOLLOWING SOON";
-	}
+	public String vegetarian () throws IOException {
+		endpointSelector = recipes.fileReader(recipeFile);
+		endpointSelector = endpointSelector.stream()
+								.filter(x -> x.getVegetarian().equals(true))
+								.collect(Collectors.toList());
+
+		
+		return "--Ja Mann! " + "vegetarian RECIPES ARE here" + endpointSelector;
+	} 
 
 	@GetMapping("/all-recipes")
 	public String allRecipes () throws IOException {
