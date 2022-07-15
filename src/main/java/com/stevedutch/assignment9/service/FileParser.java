@@ -4,7 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -29,7 +33,8 @@ public class FileParser {
 														.build()
 														.parse(in);
 	
-		System.out.println(java.nio.charset.Charset.defaultCharset());
+		//show saved encoding for txt.file
+//		System.out.println(java.nio.charset.Charset.defaultCharset());
 		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 		for (CSVRecord record : records) {
 			// less verbose way, but also less human eyes friendly
@@ -57,7 +62,7 @@ public class FileParser {
 			Recipe tempObj = new Recipe(cookingMinutes, dairyFree, glutenFree, instructions, 
 					preparationMinutes, pricePerServing, readyInMinutes, servings, 
 					spoonacularScore, title, vegan, vegetarian);
-			System.out.println(tempObj);
+//			System.out.println(tempObj);
 
 			recipes.add(tempObj);
 			
@@ -67,5 +72,9 @@ public class FileParser {
 	
 		return recipes;
 	}
+	
+	public List<String> readFile (String filename) throws IOException {
 
+		return Files.readAllLines(Paths.get(filename));
+	}
 }
