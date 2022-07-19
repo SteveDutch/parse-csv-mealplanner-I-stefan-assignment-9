@@ -14,77 +14,63 @@ import com.stevedutch.assignment9.service.FileParser;
 @RestController
 public class WebController {
 
-	String recipeFile = "recipes.txt";
-//	@Autowired
-	FileParser recipes = new FileParser();
-	List<Recipe> endpointSelector = new ArrayList<Recipe>();
+	private String recipeFile = "recipes.txt";
+	private FileParser fileParser = new FileParser();
+	private List<Recipe> selectedRecipes = new ArrayList<Recipe>();
 
-//	@GetMapping("/first")
-//	public String first () {
-//		System.out.println("hamstibamsti from /first");
-//		String hamstibamsti = "Test \nmonsterstring \n";
-//		return hamstibamsti + "Welcome on my first\n JAVA SPRING BOOT BUILD WEBPAGE" + '\n' + "Ja Mann! " + '\n' + "FileParser is following soon";
-//	}
+	private ArrayList<Recipe> readRecipes() throws IOException {
+		return fileParser.fileReader(recipeFile);
+	}
 
-	@GetMapping("/start")
-	public String begin(ArrayList<Recipe> printTest) throws IOException {
-//		FileParser test = new FileParser();
-//		ArrayList<Recipe> printVersuch = test.fileReader("recipes.txt");
-//		printVersuch.stream()
-//				
-//				.map(x -> x.getInstructions())
-//				 .map(x -> x.toString())
-//				.forEach(System.out::println);
-//		
-//		List<String> testo =new ArrayList<String>();
-//		testo.add("jj");
-//		testo.add("jfejfeo");
-		return "WELCOME --- Enter .../gluten-free --- OR --- /vegan ---OR--- ...vegan-and-gluten-free"
-				+ " --- OR --- vegetarian ---OR--- all-recipes ---  ---" + "for a selection of recipes";
+	@GetMapping("")
+	public String begin() {
+		return "<p>WELCOME</p>  <p>Enter </p><p>/gluten-free </p> <p>OR "
+				+ "</p><p>/vegan </p><p>OR</p>/vegan-and-gluten-free</p>"
+				+ " <p>OR </p><p>/vegetarian </p><p>OR</p> <p>/all-recipes </p>" 
+				+ "<p>FOR A SELECTION OF RECIPES</p>";
 	}
 
 	@GetMapping("/gluten-free")
 	public String glutenFree() throws IOException {
+		selectedRecipes = readRecipes().stream()
+										.filter(x -> x.getGlutenFree().equals(true))
+										.collect(Collectors.toList());
 
-		endpointSelector = recipes.fileReader(recipeFile);
-		endpointSelector = endpointSelector.stream().filter(x -> x.getGlutenFree().equals(true))
-				.collect(Collectors.toList());
-
-		return "Ja Mann! " + "GLUTENFREE RECIPES ARE HERE11111->" + endpointSelector.toString();
+		return "<p>GLUTENFREE RECIPES ARE HERE</p>" + selectedRecipes;
 	}
 
 	@GetMapping("/vegan")
 	public String vegan() throws IOException {
+		selectedRecipes = readRecipes().stream()
+										.filter(x -> x.getVegan().equals(true))
+										.collect(Collectors.toList());
 
-		endpointSelector = recipes.fileReader(recipeFile);
-		endpointSelector = endpointSelector.stream().filter(x -> x.getVegan().equals(true))
-				.collect(Collectors.toList());
-
-		return "Ja Mann! " + "VEGAN  RECIPES ARE FHERE" + endpointSelector;
+		return "<p>VEGAN  RECIPES ARE HERE</p>" + selectedRecipes;
 	}
 
 	@GetMapping("/vegan-and-gluten-free")
 	public String veganAndGlutenFree() throws IOException {
-		endpointSelector = recipes.fileReader(recipeFile);
-		endpointSelector = endpointSelector.stream().filter(x -> x.getGlutenFree().equals(true))
-				.filter(x -> x.getVegan().equals(true)).collect(Collectors.toList());
+		selectedRecipes = readRecipes().stream()
+										.filter(x -> x.getGlutenFree().equals(true))
+										.filter(x -> x.getVegan().equals(true))
+										.collect(Collectors.toList());
 
-		return "Ja Mann! " + "VEGAN ANG GLUTENFREE RECIPES ARE here" + endpointSelector;
+		return "<p>VEGAN ANG GLUTENFREE RECIPES ARE HERE</p>" + selectedRecipes;
 	}
 
 	@GetMapping("/vegetarian")
 	public String vegetarian() throws IOException {
-		endpointSelector = recipes.fileReader(recipeFile);
-		endpointSelector = endpointSelector.stream().filter(x -> x.getVegetarian().equals(true))
-				.collect(Collectors.toList());
+		selectedRecipes = readRecipes().stream()
+										.filter(x -> x.getVegetarian().equals(true))
+										.collect(Collectors.toList());
 
-		return "--Ja Mann! " + "vegetarian RECIPES ARE here" + endpointSelector;
+		return "<p>VEGETARIAN RECIPES ARE HERE</p>" + selectedRecipes;
 	}
 
 	@GetMapping("/all-recipes")
 	public String allRecipes() throws IOException {
-		;
-		return "Here comes the whole recipes collection" + recipes.readFile(recipeFile);
+		selectedRecipes = readRecipes();
+		return "<p>Here comes the whole recipes collection</p>" + selectedRecipes;
 	}
 
 }
