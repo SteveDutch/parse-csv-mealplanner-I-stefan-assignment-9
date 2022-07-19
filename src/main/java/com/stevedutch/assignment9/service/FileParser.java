@@ -3,11 +3,7 @@ package com.stevedutch.assignment9.service;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -17,12 +13,18 @@ public class FileParser {
 
 	public ArrayList<Recipe> fileReader(String filename) throws IOException {
 		Reader in = new FileReader(filename);
-		Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder().setDelimiter(',').setTrim(true)
-				.setTrailingDelimiter(true).setIgnoreSurroundingSpaces(true).setSkipHeaderRecord(false).setHeader()
-				.setQuote('\"').setEscape('\\').build().parse(in);
+		Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder()
+														.setDelimiter(',')
+														.setTrim(true)
+														.setTrailingDelimiter(true)
+														.setIgnoreSurroundingSpaces(true)
+														.setSkipHeaderRecord(false)
+														.setHeader()
+														.setQuote('\"')
+														.setEscape('\\')
+														.build()
+														.parse(in);
 
-		// show saved encoding for txt.file
-//		System.out.println(java.nio.charset.Charset.defaultCharset());
 		ArrayList<Recipe> recipes = new ArrayList<Recipe>();
 		for (CSVRecord record : records) {
 			// less verbose way, but also less human eyes friendly
@@ -48,14 +50,9 @@ public class FileParser {
 					pricePerServing, readyInMinutes, servings, spoonacularScore, title, vegan, vegetarian);
 
 			recipes.add(tempObj);
-
 		}
 
 		return recipes;
 	}
-
-	public List<String> readFile(String filename) throws IOException {
-
-		return Files.readAllLines(Paths.get(filename));
-	}
+	
 }
