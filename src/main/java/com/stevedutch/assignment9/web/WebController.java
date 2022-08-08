@@ -8,19 +8,29 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.stevedutch.assignment9.domain.Recipe;
+import com.stevedutch.assignment9.domain.RecipeString;
 import com.stevedutch.assignment9.service.FileParser;
 
 @RestController
 public class WebController {
 
 	private String recipeFile = "recipes.txt";
+
+	// @Autowired here
 	private FileParser fileParser = new FileParser();
 	private List<Recipe> selectedRecipes = new ArrayList<Recipe>();
-
+	private List<RecipeString> result;
+	Gson gson = new Gson();
 	private ArrayList<Recipe> readRecipes() throws IOException {
 		return fileParser.fileReader(recipeFile);
 	}
+	
+	private ArrayList<RecipeString> readRecipesToString() throws IOException {
+		return fileParser.fileReadertoStrings(recipeFile);
+	}
+	
 
 	@GetMapping("")
 	public String begin() {
@@ -35,8 +45,22 @@ public class WebController {
 		selectedRecipes = readRecipes().stream()
 										.filter(x -> x.getGlutenFree().equals(true))
 										.collect(Collectors.toList());
+		
+		result = readRecipesToString().stream()
+				.filter(x -> x.getGlutenFree().equals("true"))
+	
+				.collect(Collectors.toList());
+		// mühsam ... jedes objekt jede Eigenschaft von Hand ausformulieren
+		String output = "";
+		String temp = "";
+		for (RecipeString elem : result) {
+			temp =gson.toJson(elem);
+			output += "<p>" + temp + "</p>";
+		}
+//		String output = gson.toJson(result, <RecipeString>);
+		return "<p>GLUTENFREE RECIPES ARE HERE</p>" +" kanskje her..." + output + "kanskje" + selectedRecipes + "<p>GLUTENFREE RECIPES ARE HERE</p>"  + result +"<p>GLUTENFREE RECIPES ARE HERE</p>"; 
 
-		return "<p>GLUTENFREE RECIPES ARE HERE</p>" + selectedRecipes;
+//		+ join;
 	}
 
 	@GetMapping("/vegan")

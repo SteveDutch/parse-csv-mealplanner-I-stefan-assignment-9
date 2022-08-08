@@ -8,6 +8,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import com.stevedutch.assignment9.domain.Recipe;
+import com.stevedutch.assignment9.domain.RecipeString;
 
 public class FileParser {
 
@@ -55,4 +56,47 @@ public class FileParser {
 		return recipes;
 	}
 	
+	public ArrayList<RecipeString> fileReadertoStrings(String filename) throws IOException {
+		Reader in = new FileReader(filename);
+		Iterable<CSVRecord> records = CSVFormat.DEFAULT.builder()
+														.setDelimiter(',')
+														.setTrim(true)
+														.setTrailingDelimiter(true)
+														.setIgnoreSurroundingSpaces(true)
+														.setSkipHeaderRecord(false)
+														.setHeader()
+														.setQuote('\"')
+														.setEscape('\\')
+														.build()
+														.parse(in);
+
+		ArrayList<RecipeString> recipes = new ArrayList<RecipeString>();
+		for (CSVRecord record : records) {
+			// less verbose way, but also less human eyes friendly
+//			int cookingMinutesTemp = Integer.parseInt(record.get(0));
+//			boolean dairyFreeTemp = Boolean.parseBoolean(record.get(1));
+//			boolean glutenFreeTemp = Boolean.parseBoolean(record.get(2));
+//			String instructionsTemp = record.get(3);
+
+			String cookingMinutes = record.get("Cooking Minutes");
+			String dairyFree = record.get("Dairy Free");
+			String glutenFree = record.get("Gluten Free");
+			String instructions = record.get("Instructions");
+			String preparationMinutes = record.get("Preparation Minutes");
+			String pricePerServing = record.get("Price Per Serving");
+			String readyInMinutes = record.get("Ready In Minutes");
+			String servings = record.get("Servings");
+			String spoonacularScore = record.get("Spoonacular Score");
+			String title = record.get("Title");
+			String vegan = record.get("Vegan");
+			String vegetarian = record.get("Vegetarian");
+
+			RecipeString tempObj = new RecipeString(cookingMinutes, dairyFree, glutenFree, instructions, preparationMinutes,
+					pricePerServing, readyInMinutes, servings, spoonacularScore, title, vegan, vegetarian);
+
+			recipes.add(tempObj);
+		}
+
+		return recipes;
+	}
 }
