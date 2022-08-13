@@ -1,10 +1,14 @@
 package com.stevedutch.assignment9.web;
 
+import static org.junit.jupiter.api.DynamicTest.stream;
+
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
+import com.google.gson.Gson;
 import com.stevedutch.assignment9.domain.Recipe;
 import com.stevedutch.assignment9.service.FileParser;
 
@@ -17,7 +21,13 @@ class WebControllerTest {
 		String recipes = "recipes.txt";
 		ArrayList<Recipe> testCase = sut.fileReader(recipes);
 		
-		System.out.println(testCase);
+//		testCase = stream()
+//				.filter(x -> x.getGlutenFree().equals(true))
+//				.collect(Collectors.toList());
+		Gson gson = new Gson();
+		String test = gson.toJson(testCase);
+		
+		System.out.println(test);
 	}
 
 }

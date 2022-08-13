@@ -1,28 +1,18 @@
 package com.stevedutch.assignment9.domain;
 
 public class Recipe {
-    private Integer cookingMinutes;
+	private Integer cookingMinutes;
 
-    private Boolean dairyFree;
-
-    private Boolean glutenFree;
-
-    private String instructions;
-
+	private Boolean dairyFree;
+	private Boolean glutenFree;
+	private String instructions;
     private Double preparationMinutes;
-
     private Double pricePerServing;
-
     private Integer readyInMinutes;
-
     private Integer servings;
-
     private Double spoonacularScore;
-
     private String title;
-
     private Boolean vegan;
-
     private Boolean vegetarian;
 
     public Recipe(Integer cookingMinutes, Boolean dairyFree, Boolean glutenFree, String instructions,
@@ -139,6 +129,15 @@ public class Recipe {
 
 	public void setVegetarian(Boolean vegetarian) {
 		this.vegetarian = vegetarian;
+	}
+
+	@Override
+	public String toString() {
+		return "Recipe [cookingMinutes=" + cookingMinutes + ", dairyFree=" + dairyFree + ", glutenFree=" + glutenFree
+				+ ", instructions=" + instructions + ", preparationMinutes=" + preparationMinutes + ", pricePerServing="
+				+ pricePerServing + ", readyInMinutes=" + readyInMinutes + ", servings=" + servings
+				+ ", spoonacularScore=" + spoonacularScore + ", title=" + title + ", vegan=" + vegan + ", vegetarian="
+				+ vegetarian + "]";
 	}
 
 }
