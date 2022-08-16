@@ -18,7 +18,7 @@ public class WebController {
 
 	private String recipeFile = "recipes.txt";
 	private FileParser fileParser = new FileParser();
-	private List<Recipe> selectedRecipes = new ArrayList<Recipe>();
+	private ArrayList<Recipe> selectedRecipes = new ArrayList<Recipe>();
 	
 	Gson gson = new Gson();
 
@@ -35,14 +35,13 @@ public class WebController {
 	}
 
 	@GetMapping("/gluten-free")
-	public String glutenFree() throws IOException {
-		selectedRecipes = readRecipes().stream()
+	public ArrayList<Recipe> glutenFree() throws IOException {
+		selectedRecipes = (ArrayList<Recipe>) readRecipes().stream()
 										.filter(x -> x.getGlutenFree().equals(true))
-										.collect(Collectors.toList());
+										.collect(Collectors.toCollection(ArrayList<Recipe>::new));
 		// make readable via gson/JSON
 		String result = gson.toJson(selectedRecipes);
-		return "<p>GLUTENFREE RECIPES ARE HERE</p>" + result.replaceAll(",\"", "<br>")
-					.replaceAll("\":", " : ");
+		return selectedRecipes;
 	}
 
 	@GetMapping("/vegan")
