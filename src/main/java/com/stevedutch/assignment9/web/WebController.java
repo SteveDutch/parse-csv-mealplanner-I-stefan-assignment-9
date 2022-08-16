@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.stevedutch.assignment9.domain.Recipe;
 import com.stevedutch.assignment9.domain.RecipeString;
 import com.stevedutch.assignment9.service.FileParser;
@@ -22,7 +25,10 @@ public class WebController {
 	private FileParser fileParser = new FileParser();
 	private List<Recipe> selectedRecipes = new ArrayList<Recipe>();
 	private List<RecipeString> result;
+	
 	Gson gson = new Gson();
+	Gson gsonPrettier = new GsonBuilder().setPrettyPrinting().setLenient().create();
+	
 	private ArrayList<Recipe> readRecipes() throws IOException {
 		return fileParser.fileReader(recipeFile);
 	}
@@ -57,8 +63,13 @@ public class WebController {
 			temp =gson.toJson(elem);
 			output += "<p>" + temp + "</p>";
 		}
+		
+//		JsonElement je = JsonParser.parseString(output);
+		String prettierOutput = gson.toJson(output);
+//		
 //		String output = gson.toJson(result, <RecipeString>);
-		return "<p>GLUTENFREE RECIPES ARE HERE</p>" +" kanskje her..." + output + "kanskje" + selectedRecipes + "<p>GLUTENFREE RECIPES ARE HERE</p>"  + result +"<p>GLUTENFREE RECIPES ARE HERE</p>"; 
+		return "<p>GLUTENFREE RECIPES ARE HERE</p>" +" kanskje her..." 
+		 + output + output.replaceAll("\",\"", "<br>").replaceAll("\":\"", " : ") + "kanskje" + selectedRecipes + "<p>GLUTENFREE RECIPES ARE HERE</p>"  + result +"<p>GLUTENFREE RECIPES ARE HERE</p>"; 
 
 //		+ join;
 	}
