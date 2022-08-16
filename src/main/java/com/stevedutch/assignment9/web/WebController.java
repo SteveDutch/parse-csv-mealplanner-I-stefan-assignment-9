@@ -2,13 +2,11 @@ package com.stevedutch.assignment9.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.google.gson.Gson;
 
 import com.stevedutch.assignment9.domain.Recipe;
 import com.stevedutch.assignment9.service.FileParser;
@@ -17,10 +15,11 @@ import com.stevedutch.assignment9.service.FileParser;
 public class WebController {
 
 	private String recipeFile = "recipes.txt";
+	@Autowired
 	private FileParser fileParser = new FileParser();
 	private ArrayList<Recipe> selectedRecipes = new ArrayList<Recipe>();
 	
-	Gson gson = new Gson();
+
 
 	private ArrayList<Recipe> readRecipes() throws IOException {
 		return fileParser.fileReader(recipeFile);
@@ -36,50 +35,41 @@ public class WebController {
 
 	@GetMapping("/gluten-free")
 	public ArrayList<Recipe> glutenFree() throws IOException {
-		selectedRecipes = (ArrayList<Recipe>) readRecipes().stream()
+		selectedRecipes = readRecipes().stream()
 										.filter(x -> x.getGlutenFree().equals(true))
 										.collect(Collectors.toCollection(ArrayList<Recipe>::new));
-		// make readable via gson/JSON
-		String result = gson.toJson(selectedRecipes);
 		return selectedRecipes;
 	}
 
 	@GetMapping("/vegan")
-	public String vegan() throws IOException {
+	public ArrayList<Recipe> vegan() throws IOException {
 		selectedRecipes = readRecipes().stream()
 										.filter(x -> x.getVegan().equals(true))
-										.collect(Collectors.toList());
-		// and shorter
-		return "<p>VEGAN  RECIPES ARE HERE</p>" + gson.toJson(selectedRecipes).replaceAll(",\"", "<br>")
-				.replaceAll("\":", " : ");
+										.collect(Collectors.toCollection(ArrayList<Recipe>::new));
+		return selectedRecipes;
 	}
 
 	@GetMapping("/vegan-and-gluten-free")
-	public String veganAndGlutenFree() throws IOException {
+	public ArrayList<Recipe> veganAndGlutenFree() throws IOException {
 		selectedRecipes = readRecipes().stream()
 										.filter(x -> x.getGlutenFree().equals(true))
 										.filter(x -> x.getVegan().equals(true))
-										.collect(Collectors.toList());
-
-		return "<p>VEGAN AND GLUTENFREE RECIPES ARE HERE</p>" + gson.toJson(selectedRecipes).replaceAll(",\"", "<br>")
-				.replaceAll("\":", " : ");
+										.collect(Collectors.toCollection(ArrayList<Recipe>::new));
+		return selectedRecipes;
 	}
 
 	@GetMapping("/vegetarian")
-	public String vegetarian() throws IOException {
+	public ArrayList<Recipe> vegetarian() throws IOException {
 		selectedRecipes = readRecipes().stream()
 										.filter(x -> x.getVegetarian().equals(true))
-										.collect(Collectors.toList());
-
-		return "<p>VEGETARIAN RECIPES ARE HERE</p>" + gson.toJson(selectedRecipes).replaceAll(",\"", "<br>")
-				.replaceAll("\":", " : ");
+										.collect(Collectors.toCollection(ArrayList<Recipe>::new));
+		return selectedRecipes;
 	}
 
 	@GetMapping("/all-recipes")
-	public String allRecipes() throws IOException {
+	public ArrayList<Recipe> allRecipes() throws IOException {
 		selectedRecipes = readRecipes();
-		return "<p>Here comes the whole recipes collection</p>" + gson.toJson(selectedRecipes).replaceAll(",\"", "<br>")
-				.replaceAll("\":", " : ");
+		return  selectedRecipes;
 	}
 
 }

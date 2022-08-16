@@ -6,9 +6,11 @@ import java.io.Reader;
 import java.util.ArrayList;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Service;
 
 import com.stevedutch.assignment9.domain.Recipe;
 
+@Service
 public class FileParser {
 
 	public ArrayList<Recipe> fileReader(String filename) throws IOException {
