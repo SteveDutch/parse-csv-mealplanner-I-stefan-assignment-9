@@ -14,9 +14,7 @@ class FileParserTest {
 		String testFile = "recipes.txt";
 
 		ArrayList<Recipe> check = sut.fileReader(testFile);
-		 
-//		 boolean exspectedResult = check.get();
-			
+		check.getClass();	
 		
 }
 }

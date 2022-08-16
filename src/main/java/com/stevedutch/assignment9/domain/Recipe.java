@@ -33,7 +33,7 @@ public class Recipe {
 		this.vegetarian = vegetarian;
 	}
 
-	//getter $ setter
+	// getter & setter
     
 	public Integer getCookingMinutes() {
 		return cookingMinutes;
